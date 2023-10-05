@@ -4,7 +4,6 @@ import { Component } from 'react';
 import { fetchGallery } from './services/axios';
 import { ButtonLoadMore } from 'components/Button/ButtonLoadMore';
 import { Modal } from 'components/Modal/Modal';
-// import { Modal } from 'components/Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -14,20 +13,23 @@ export class App extends Component {
     word: '',
     page: 1,
     perPage: 12,
+    totalPage: 1,
     modal: {
       isOpen: false,
       largeImageURL: null,
     },
-    showButton: true,
+    // showButton: false,
   };
   getGallery = async () => {
     try {
       this.setState({ isLoading: true });
       const data = await fetchGallery(this.state.word, this.state.page);
-      const totalPage = Math.ceil(data.totalHits / this.state.perPage);
+      // const totalPage = Math.ceil(data.totalHits / this.state.perPage)
+      console.log(data);
       this.setState({
         gallery: data,
-        showButton: this.state.page !== totalPage,
+        totalPage: Math.ceil(data.totalHits / this.state.perPage),
+        // showButton: this.state.page !== totalPage,
       });
       console.log('data.hits', data.hits);
     } catch (error) {
@@ -50,6 +52,13 @@ export class App extends Component {
         page: page + 1,
       };
     });
+
+    // this.setState((prevState) => {
+    //   return {
+    //     page: prevState.page + 1,
+    //     gallery: [...prevState.gallery, data],
+    //   };
+    // })
   };
   onFindPhotos = word => {
     this.setState({ word: word, page: 1 });
@@ -81,9 +90,12 @@ export class App extends Component {
           gallery={this.state.gallery}
           showModal={this.onOpenModal}
         />
-        {this.state.showButton && (
+        {this.state.page !== this.state.totalPage && (
           <ButtonLoadMore onPageIncrement={this.onPageIncrement} />
         )}
+        {/* {this.state.page !== totalPage && (
+          <ButtonLoadMore onPageIncrement={this.onPageIncrement} />
+        )} */}
         {/* <Modal data={this.state.modal.largeImageURL} /> */}
         {this.state.modal.isOpen && (
           <Modal

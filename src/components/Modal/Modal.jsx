@@ -12,7 +12,7 @@ export class Modal extends Component {
   }
 
   onKeyDown = event => {
-    if (event.code === 'Escape') this.props.onCloseModal();
+    if (event.code === 'Escape') this.props.onClose();
   };
 
   onOverlyaClick = event => {
