@@ -8,6 +8,7 @@ import { Modal } from 'components/Modal/Modal';
 export class App extends Component {
   state = {
     gallery: null,
+    hits: null,
     isLoading: false,
     error: null,
     word: '',
@@ -18,20 +19,20 @@ export class App extends Component {
       isOpen: false,
       largeImageURL: null,
     },
-    // showButton: false,
   };
+
   getGallery = async () => {
     try {
       this.setState({ isLoading: true });
       const data = await fetchGallery(this.state.word, this.state.page);
-      // const totalPage = Math.ceil(data.totalHits / this.state.perPage)
       console.log(data);
+
       this.setState({
-        gallery: data,
+        hits: data.hits,
         totalPage: Math.ceil(data.totalHits / this.state.perPage),
-        // showButton: this.state.page !== totalPage,
+        gallery: data.hits,
       });
-      console.log('data.hits', data.hits);
+      console.log('data.hits', this.state.hits);
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
@@ -45,23 +46,24 @@ export class App extends Component {
       prevState.word !== this.state.word
     )
       this.getGallery();
+
+    // this.setState(prevState => {
+    //   return {
+    //     gallery: [prevState.gallery, this.state.hits],
+    //   };
+    // });
   }
+
   onPageIncrement = () => {
-    this.setState(({ page }) => {
+    this.setState(prevState => {
       return {
-        page: page + 1,
+        page: prevState.page + 1,
       };
     });
-
-    // this.setState((prevState) => {
-    //   return {
-    //     page: prevState.page + 1,
-    //     gallery: [...prevState.gallery, data],
-    //   };
-    // })
   };
-  onFindPhotos = word => {
-    this.setState({ word: word, page: 1 });
+
+  onFindPhotos = choosedWord => {
+    this.setState({ word: choosedWord, page: 1 });
   };
 
   onOpenModal = newlargeImageURL => {
@@ -73,6 +75,7 @@ export class App extends Component {
       },
     });
   };
+
   onCloseModal = () => {
     this.setState({
       modal: {
@@ -87,16 +90,12 @@ export class App extends Component {
       <div>
         <HederFormSearch findPhotos={this.onFindPhotos} />
         <CreateGalleryFotos
-          gallery={this.state.gallery}
+          hits={this.state.hits}
           showModal={this.onOpenModal}
         />
         {this.state.page !== this.state.totalPage && (
-          <ButtonLoadMore onPageIncrement={this.onPageIncrement} />
+          <ButtonLoadMore nextPage={this.onPageIncrement} />
         )}
-        {/* {this.state.page !== totalPage && (
-          <ButtonLoadMore onPageIncrement={this.onPageIncrement} />
-        )} */}
-        {/* <Modal data={this.state.modal.largeImageURL} /> */}
         {this.state.modal.isOpen && (
           <Modal
             open={this.state.modal.largeImageURL}

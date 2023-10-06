@@ -19,7 +19,6 @@ export class Modal extends Component {
     if (event.currentTarget === event.target) this.props.onClose();
   };
   render() {
-    console.log(this.props.data);
     return (
       <Overlay onClick={this.onOverlyaClick}>
         <ModalWrap>

@@ -8,7 +8,6 @@ export const Foto = ({ id, webURL, tags, largeURL, showModalBigImg }) => {
       <FotoItem
         src={webURL}
         alt={tags}
-        // name={largeURL}
         onClick={() => {
           showModalBigImg(largeURL);
         }}

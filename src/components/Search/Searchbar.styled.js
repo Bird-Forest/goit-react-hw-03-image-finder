@@ -12,7 +12,7 @@ export const Heder = styled.header`
   background: linear-gradient(to bottom, #82bcce 0%, #1c6ea4 0%, #82bcce 100%);
 
   width: 100%;
-  height: 60px;
+  height: 56px;
 
   padding: 0;
 `;
@@ -28,8 +28,8 @@ export const FormSearch = styled.form`
   padding: 0;
 `;
 export const BtnSearch = styled.button`
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #2373a9;
   background-image: url(./images/icons8-поиск-в-облаке-64.png);
