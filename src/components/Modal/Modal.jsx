@@ -3,11 +3,11 @@ import { ModalImg, Overlay, ModalWrap } from './Modal.styled';
 
 export class Modal extends Component {
   componentDidMount() {
-    console.log('componentDidMount: Modal - render');
+    // console.log('componentDidMount: Modal - render');
     window.addEventListener('keydown', this.onKeyDown);
   }
   componentWillUnmount() {
-    console.log(' componentWillUnmount: Modal -delete');
+    // console.log(' componentWillUnmount: Modal -delete');
     window.removeEventListener('keydown', this.onKeyDown);
   }
 

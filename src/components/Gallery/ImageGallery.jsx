@@ -9,11 +9,10 @@ export function CreateGalleryFotos({ hits, showModal }) {
   return (
     <GalleryWrap>
       {showFotos &&
-        hits.map(({ id, webformatURL, tags, largeImageURL }) => {
+        hits.map(({ webformatURL, tags, largeImageURL }) => {
           return (
             <Foto
               key={nanoid()}
-              id={id}
               webURL={webformatURL}
               tags={tags}
               largeURL={largeImageURL}

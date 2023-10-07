@@ -25,14 +25,14 @@ export class App extends Component {
     try {
       this.setState({ isLoading: true });
       const data = await fetchGallery(this.state.word, this.state.page);
-      console.log(data);
-
+      // console.log(data);
       this.setState({
-        hits: data.hits,
+        // hits: [...data.hits],
         totalPage: Math.ceil(data.totalHits / this.state.perPage),
-        gallery: data.hits,
       });
-      console.log('data.hits', this.state.hits);
+      this.setState(prev => ({
+        hits: [...prev.hits, ...data.hits],
+      }));
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
@@ -40,17 +40,17 @@ export class App extends Component {
     }
   };
 
-  componentDidUpdate(_, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       prevState.page !== this.state.page ||
       prevState.word !== this.state.word
     )
       this.getGallery();
 
-    // this.setState(prevState => {
-    //   return {
-    //     gallery: [prevState.gallery, this.state.hits],
-    //   };
+    // const prevHits = prevState.hits ?? [];
+    // const nextHits = this.state.hits;
+    // this.setState({
+    //   hits: [...prevHits, ...nextHits],
     // });
   }
 
