@@ -8,7 +8,6 @@ import { Loading } from 'components/Loader/Loader';
 
 export class App extends Component {
   state = {
-    // gallery: null,
     hits: null,
     isLoading: false,
     error: null,
@@ -62,7 +61,6 @@ export class App extends Component {
 
   onFindPhotos = choosedWord => {
     this.setState({ word: choosedWord, page: 1, hits: '' });
-    // this.setState({hits: ''})
   };
 
   onOpenModal = newlargeImageURL => {
