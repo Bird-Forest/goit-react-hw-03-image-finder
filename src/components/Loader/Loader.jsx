@@ -1,11 +1,10 @@
 import React from 'react';
-import { ThreeDots } from 'react-loader-spinner';
-import { LoaderWrap } from './loader.styled';
+import { LoaderWrap, Loader } from './loader.styled';
 
-export function LoaderThreeDots() {
+export function Loading() {
   return (
     <LoaderWrap>
-      <ThreeDots className="loader" ariaLabel="three-dots-loading" />
+      <Loader />
     </LoaderWrap>
   );
 }

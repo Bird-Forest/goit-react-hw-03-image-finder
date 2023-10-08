@@ -4,10 +4,11 @@ import { Component } from 'react';
 import { fetchGallery } from './services/axios';
 import { ButtonLoadMore } from 'components/Button/ButtonLoadMore';
 import { Modal } from 'components/Modal/Modal';
+import { Loading } from 'components/Loader/Loader';
 
 export class App extends Component {
   state = {
-    gallery: null,
+    // gallery: null,
     hits: null,
     isLoading: false,
     error: null,
@@ -27,11 +28,10 @@ export class App extends Component {
       const data = await fetchGallery(this.state.word, this.state.page);
       // console.log(data);
       this.setState({
-        // hits: [...data.hits],
         totalPage: Math.ceil(data.totalHits / this.state.perPage),
       });
       this.setState(prev => ({
-        hits: [...prev.hits, ...data.hits],
+        hits: [...(prev.hits ?? []), ...data.hits],
       }));
     } catch (error) {
       this.setState({ error: error.message });
@@ -40,18 +40,16 @@ export class App extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       prevState.page !== this.state.page ||
       prevState.word !== this.state.word
     )
       this.getGallery();
 
-    // const prevHits = prevState.hits ?? [];
-    // const nextHits = this.state.hits;
-    // this.setState({
-    //   hits: [...prevHits, ...nextHits],
-    // });
+    console.log(this.state.word);
+    console.log(this.state.page);
+    console.log(this.state.hits);
   }
 
   onPageIncrement = () => {
@@ -63,7 +61,8 @@ export class App extends Component {
   };
 
   onFindPhotos = choosedWord => {
-    this.setState({ word: choosedWord, page: 1 });
+    this.setState({ word: choosedWord, page: 1, hits: '' });
+    // this.setState({hits: ''})
   };
 
   onOpenModal = newlargeImageURL => {
@@ -89,6 +88,7 @@ export class App extends Component {
     return (
       <div>
         <HederFormSearch findPhotos={this.onFindPhotos} />
+        {this.state.isLoading && <Loading />}
         <CreateGalleryFotos
           hits={this.state.hits}
           showModal={this.onOpenModal}

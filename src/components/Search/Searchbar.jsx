@@ -10,13 +10,12 @@ export class HederFormSearch extends Component {
 
   handleSubmitWord = event => {
     event.preventDefault();
-    // const choosedWord = event.currentTarget.elements.word.value;
-    const choosedWord = this.state.word;
-    this.props.findPhotos(choosedWord);
-
     this.setState({
       word: '',
     });
+    // const choosedWord = event.currentTarget.elements.word.value;
+    const choosedWord = this.state.word;
+    this.props.findPhotos(choosedWord);
   };
 
   handleInputChange = event => {
